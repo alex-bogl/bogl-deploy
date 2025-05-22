@@ -1,0 +1,21 @@
+# local deployment with docker compose that exposes only the front end editor at http://localhost:80/
+services:
+  bogl:
+    image: bogl
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  bogl-editor:
+    image: bogl-editor
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - bogl
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
