@@ -49,7 +49,7 @@ build_images() {
   
   echo "Building bogl-editor frontend image..."
   cd "$BOGL_EDITOR_PATH" || { echo "Error: Cannot access $BOGL_EDITOR_PATH"; exit 1; }
-  docker build -t bogl-editor .
+  docker build --build-arg ENVIRONMENT=local -t bogl-editor .
   
   cd "$CURRENT_DIR"
 }
@@ -57,7 +57,7 @@ build_images() {
 start_services() {
   echo "Starting services with Docker Compose..."
   cd "$SCRIPT_DIR"
-  docker compose --project-name "$COMPOSE_PROJECT_NAME" up -d
+  docker compose -f docker-compose.local.yml --project-name "$COMPOSE_PROJECT_NAME" up -d
 }
 
 wait_for_services() {

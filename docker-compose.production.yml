@@ -1,0 +1,24 @@
+services:
+  bogl:
+    image: alexgrejuc/bogl
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  bogl-editor:
+    image: alexgrejuc/bogl-editor
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-network
+    depends_on:
+      - bogl
+    restart: unless-stopped
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
+
+networks:
+  app-network:
+    driver: bridge
